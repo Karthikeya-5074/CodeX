@@ -12,3 +12,9 @@ test('renders Interest Calculator heading', () => {
   const heading = screen.getByText(/Interest Calculator/i);
   expect(heading).toBeInTheDocument();
 });
+
+test('renders Home Loan EMI option', () => {
+  render(<App />);
+  const option = screen.getByRole('option', { name: /Home Loan EMI/i });
+  expect(option).toBeInTheDocument();
+});

@@ -8,6 +8,7 @@ function InterestCalculator() {
   const [time, setTime] = useState('');
   const [interest, setInterest] = useState(null);
   const [total, setTotal] = useState(null);
+  const [emi, setEmi] = useState(null);
   const [error, setError] = useState('');
 
   const validate = (p, r, t) => {
@@ -22,18 +23,33 @@ function InterestCalculator() {
       setError('Enter valid positive numbers.');
       setInterest(null);
       setTotal(null);
+      setEmi(null);
       return;
     }
 
     setError('');
+    setEmi(null);
     let i = 0;
+
     if (calcType === 'simple') {
       i = (p * r * t) / 100;
-    } else {
+      setInterest(i);
+      setTotal(p + i);
+    } else if (calcType === 'compound') {
       i = p * Math.pow(1 + r / 100, t) - p;
+      setInterest(i);
+      setTotal(p + i);
+    } else {
+      // EMI calculations for home, car and personal loans
+      const monthlyRate = r / (12 * 100);
+      const n = t * 12;
+      const emiVal = p * monthlyRate * Math.pow(1 + monthlyRate, n) /
+        (Math.pow(1 + monthlyRate, n) - 1);
+      const totalPayment = emiVal * n;
+      setEmi(emiVal);
+      setInterest(totalPayment - p);
+      setTotal(totalPayment);
     }
-    setInterest(i);
-    setTotal(p + i);
   };
 
   return (
@@ -45,6 +61,9 @@ function InterestCalculator() {
           <select value={calcType} onChange={e => setCalcType(e.target.value)}>
             <option value="simple">Simple</option>
             <option value="compound">Compound</option>
+            <option value="home">Home Loan EMI</option>
+            <option value="car">Car Loan EMI</option>
+            <option value="personal">Personal Loan EMI</option>
           </select>
         </label>
         <label>
@@ -62,10 +81,21 @@ function InterestCalculator() {
         <button onClick={calculate}>Calculate</button>
         {error && <p className="error">{error}</p>}
       </div>
-      {interest !== null && (
+      {(interest !== null || emi !== null) && (
         <div className="interest-results fade-in">
-          <p>Interest: ₹{interest.toFixed(2)}</p>
-          <p>Total Amount: ₹{total.toFixed(2)}</p>
+          {emi !== null && <p>Monthly EMI: ₹{emi.toFixed(2)}</p>}
+          <p>
+            {calcType === 'simple' || calcType === 'compound'
+              ? 'Interest'
+              : 'Total Interest'}:
+            ₹{interest.toFixed(2)}
+          </p>
+          <p>
+            {calcType === 'simple' || calcType === 'compound'
+              ? 'Total Amount'
+              : 'Total Payment'}:
+            ₹{total.toFixed(2)}
+          </p>
         </div>
       )}
     </div>

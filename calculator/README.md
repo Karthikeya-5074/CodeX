@@ -1,3 +1,9 @@
+# React Calculator
+
+This is a simple calculator built with React.
+It now includes an Interest Calculator for common Indian loan types such as home, car, and personal loans.
+The interface features a colorful gradient background and modern styling.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

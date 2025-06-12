@@ -6,3 +6,9 @@ test('renders Calculator heading', () => {
   const heading = screen.getByText(/Calculator/i);
   expect(heading).toBeInTheDocument();
 });
+
+test('renders Interest Calculator heading', () => {
+  render(<App />);
+  const heading = screen.getByText(/Interest Calculator/i);
+  expect(heading).toBeInTheDocument();
+});

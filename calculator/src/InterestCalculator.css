@@ -1,0 +1,21 @@
+.interest-calculator {
+  width: 300px;
+  margin: 2rem auto;
+}
+
+.interest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.interest-form input,
+.interest-form select {
+  padding: 0.25rem;
+  font-size: 1rem;
+}
+
+.interest-results {
+  margin-top: 1rem;
+  font-weight: bold;
+}

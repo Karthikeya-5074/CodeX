@@ -1,0 +1,53 @@
+.interest-calculator {
+  width: 300px;
+  margin: 2rem auto;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.interest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.interest-form input,
+.interest-form select {
+  padding: 0.25rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.interest-form button {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s;
+}
+
+.interest-form button:hover {
+  background: #45a045;
+}
+
+.interest-form button:active {
+  transform: scale(0.95);
+}
+
+.interest-results {
+  margin-top: 1rem;
+  font-weight: bold;
+  background: #f0f8ff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.error {
+  color: #e53935;
+}

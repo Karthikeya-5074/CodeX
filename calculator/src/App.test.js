@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders Calculator heading', () => {
+test('renders Basic Calculator heading', () => {
   render(<App />);
-  const heading = screen.getByText(/Calculator/i);
+  const heading = screen.getByText(/Basic Calculator/i);
   expect(heading).toBeInTheDocument();
 });
 

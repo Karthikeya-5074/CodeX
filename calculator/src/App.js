@@ -5,10 +5,15 @@ import InterestCalculator from './InterestCalculator';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Calculator</h1>
-      <Calculator />
-      <InterestCalculator />
+    <div className="App fade-in">
+      <h1>React Calculator</h1>
+      <section className="section">
+        <h2>Basic Calculator</h2>
+        <Calculator />
+      </section>
+      <section className="section">
+        <InterestCalculator />
+      </section>
     </div>
   );
 }

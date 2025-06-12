@@ -2,38 +2,49 @@ import React, { useState } from 'react';
 import './InterestCalculator.css';
 
 function InterestCalculator() {
-  const [loanType, setLoanType] = useState('home');
+  const [calcType, setCalcType] = useState('simple');
   const [principal, setPrincipal] = useState('');
   const [rate, setRate] = useState('');
-  const [term, setTerm] = useState('');
-  const [emi, setEmi] = useState(null);
-  const [totalInterest, setTotalInterest] = useState(null);
+  const [time, setTime] = useState('');
+  const [interest, setInterest] = useState(null);
+  const [total, setTotal] = useState(null);
+  const [error, setError] = useState('');
 
-  const calculateEmi = () => {
+  const validate = (p, r, t) => {
+    return !(isNaN(p) || p <= 0 || isNaN(r) || r <= 0 || isNaN(t) || t <= 0);
+  };
+
+  const calculate = () => {
     const p = parseFloat(principal);
-    const annualRate = parseFloat(rate) / 100;
-    const n = parseFloat(term) * 12; // months
-    const r = annualRate / 12;
-    if (isNaN(p) || isNaN(r) || isNaN(n) || r === 0) {
-      setEmi(null);
-      setTotalInterest(null);
+    const r = parseFloat(rate);
+    const t = parseFloat(time);
+    if (!validate(p, r, t)) {
+      setError('Enter valid positive numbers.');
+      setInterest(null);
+      setTotal(null);
       return;
     }
-    const emiValue = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-    setEmi(emiValue);
-    setTotalInterest(emiValue * n - p);
+
+    setError('');
+    let i = 0;
+    if (calcType === 'simple') {
+      i = (p * r * t) / 100;
+    } else {
+      i = p * Math.pow(1 + r / 100, t) - p;
+    }
+    setInterest(i);
+    setTotal(p + i);
   };
 
   return (
-    <div className="interest-calculator">
+    <div className="interest-calculator fade-in">
       <h2>Interest Calculator</h2>
       <div className="interest-form">
         <label>
-          Loan Type:
-          <select value={loanType} onChange={e => setLoanType(e.target.value)}>
-            <option value="home">Home Loan</option>
-            <option value="car">Car Loan</option>
-            <option value="personal">Personal Loan</option>
+          Type:
+          <select value={calcType} onChange={e => setCalcType(e.target.value)}>
+            <option value="simple">Simple</option>
+            <option value="compound">Compound</option>
           </select>
         </label>
         <label>
@@ -41,19 +52,20 @@ function InterestCalculator() {
           <input type="number" value={principal} onChange={e => setPrincipal(e.target.value)} />
         </label>
         <label>
-          Annual Interest Rate (%):
+          Rate (% per year):
           <input type="number" value={rate} onChange={e => setRate(e.target.value)} />
         </label>
         <label>
-          Term (years):
-          <input type="number" value={term} onChange={e => setTerm(e.target.value)} />
+          Time (years):
+          <input type="number" value={time} onChange={e => setTime(e.target.value)} />
         </label>
-        <button onClick={calculateEmi}>Calculate</button>
+        <button onClick={calculate}>Calculate</button>
+        {error && <p className="error">{error}</p>}
       </div>
-      {emi !== null && (
-        <div className="interest-results">
-          <p>Monthly EMI: ₹{emi.toFixed(2)}</p>
-          <p>Total Interest: ₹{totalInterest.toFixed(2)}</p>
+      {interest !== null && (
+        <div className="interest-results fade-in">
+          <p>Interest: ₹{interest.toFixed(2)}</p>
+          <p>Total Amount: ₹{total.toFixed(2)}</p>
         </div>
       )}
     </div>
@@ -61,3 +73,4 @@ function InterestCalculator() {
 }
 
 export default InterestCalculator;
+

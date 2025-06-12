@@ -4,7 +4,25 @@ import './Calculator.css';
 function Calculator() {
   const [display, setDisplay] = useState('');
 
+  const beep = () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.value = 400;
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start();
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
+      oscillator.stop(ctx.currentTime + 0.1);
+    } catch (e) {
+      // no audio support
+    }
+  };
+
   const handleClick = (value) => {
+    beep();
     if (value === 'C') {
       setDisplay('');
     } else if (value === '=') {
